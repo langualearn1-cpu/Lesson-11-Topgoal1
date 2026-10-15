@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Numbers 1 - 20 | الأرقام | المعلم: ماجد السويهري</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for Kid-Friendly & Arabic Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Cairo:wght@600;700;800;900&family=Fredoka:wght@500;600;700;800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --paper-border: #4ade80;
+        }
+
+        body {
+            font-family: 'Fredoka', 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 25%, #fbcfe8 50%, #c7d2fe 75%, #bae6fd 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* 3D Title Lettering */
+        .title-3d {
+            color: #0284c7;
+            -webkit-text-stroke: 1.5px #075985;
+            text-shadow: 
+                0 2px 0 #0369a1,
+                0 4px 0 #075985,
+                0 6px 10px rgba(0, 0, 0, 0.25);
+        }
+
+        .title-ar-3d {
+            color: #0284c7;
+            -webkit-text-stroke: 1.2px #075985;
+            text-shadow: 
+                0 2px 0 #0369a1,
+                0 4px 0 #075985,
+                0 6px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Number 3D typography mimicking the worksheet */
+        .num-3d {
+            font-family: 'Fredoka', 'Baloo 2', sans-serif;
+            font-weight: 800;
+            line-height: 1;
+            filter: drop-shadow(0 3px 2px rgba(0, 0, 0, 0.18));
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Realistic Wooden Hanging Plaque */
+        .wooden-sign {
+            background: linear-gradient(180deg, #ddb372 0%, #c59751 45%, #b17e37 70%, #8f5c1d 100%);
+            border: 3.5px solid #5a380e;
+            box-shadow: 
+                0 8px 16px rgba(0, 0, 0, 0.22),
+                inset 0 2px 3px rgba(255, 255, 255, 0.4),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.3);
+            border-radius: 14px;
+            transform: rotate(-3.5deg);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            position: relative;
+        }
+        .wooden-sign:hover {
+            transform: rotate(0deg) scale(1.03);
+            box-shadow: 0 12px 22px rgba(0,0,0,0.28);
+        }
+
+        /* Hanging strings */
+        .sign-rope-left, .sign-rope-right {
+            position: absolute;
+            top: -22px;
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(to bottom, #784712, #a16220);
+            border-radius: 2px;
+        }
+        .sign-rope-left { left: 24px; transform: rotate(-10deg); }
+        .sign-rope-right { right: 24px; transform: rotate(10deg); }
+
+        /* STREAMING_CHUNK:Styling interactive cards and buttons -->
+        /* Sheet Main Card */
+        .worksheet-container {
+            background-color: #fffdf5;
+            background-image: 
+                radial-gradient(#fde047 1px, transparent 1px),
+                radial-gradient(#93c5fd 1px, transparent 1px);
+            background-size: 32px 32px;
+            background-position: 0 0, 16px 16px;
+            border: 6px solid #fbcfe8;
+            border-radius: 36px;
+            box-shadow: 
+                0 20px 45px -10px rgba(0, 0, 0, 0.15),
+                0 0 0 4px #bae6fd,
+                0 0 0 8px #fef08a;
+        }
+
+        /* Number Tile Card */
+        .number-tile {
+            transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+        .number-tile:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 18px rgba(0,0,0,0.1);
+        }
+        .number-tile:active {
+            transform: scale(0.98);
+        }
+
+        .is-active-speaking {
+            animation: pulse-ring 1.1s infinite alternate;
+            box-shadow: 0 0 0 4px #0284c7, 0 10px 22px rgba(2, 132, 199, 0.35) !important;
+            transform: translateY(-4px) scale(1.03) !important;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: translateY(-4px) scale(1.02); }
+            100% { transform: translateY(-4px) scale(1.05); }
+        }
+
+        /* Column Outer Card */
+        .numbers-column-card {
+            border: 3px solid #0284c7;
+            border-radius: 26px;
+            background: #ffffff;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        /* Letter Tile for Unscramble */
+        .letter-tile {
+            transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+            user-select: none;
+        }
+        .letter-tile:hover {
+            transform: translateY(-3px) scale(1.05);
+        }
+        .letter-tile:active {
+            transform: scale(0.95);
+        }
+
+        /* Matching Connector Nodes & Arrow Styles */
+        .match-node {
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+        }
+        .match-node:hover:not(.matched) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+        }
+        .match-node.selected {
+            outline: 3px solid #0284c7;
+            border-color: #0284c7 !important;
+            background-color: #f0f9ff !important;
+            transform: scale(1.02);
+            box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.2) !important;
+        }
+        .match-node.matched {
+            pointer-events: none;
+            background-color: #f8fafc !important;
+            border-color: #cbd5e1 !important;
+            opacity: 0.92;
+        }
+
+        /* Circular Anchor Pins for Arrows */
+        .connector-pin {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2.5px solid #ffffff;
+            box-shadow: 0 0 0 2px rgba(0,0,0,0.12);
+            transition: all 0.25s ease;
+            z-index: 20;
+        }
+        .connector-pin.active-pulse {
+            transform: scale(1.35);
+            animation: pin-pulse 1s infinite alternate;
+        }
+        @keyframes pin-pulse {
+            0% { transform: scale(1.1); box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.5); }
+            100% { transform: scale(1.4); box-shadow: 0 0 0 6px rgba(2, 132, 199, 0.2); }
+        }
+
+        /* Animated Connecting Arrow Path */
+        .match-arrow-path {
+            stroke-dasharray: 600;
+            stroke-dashoffset: 600;
+            animation: drawArrowAnim 0.45s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.16));
+        }
+        @keyframes drawArrowAnim {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+    </style>
+</head>
+<body class="p-2 sm:p-4 md:p-6 text-slate-800">
+
+    <div class="max-w-5xl mx-auto worksheet-container p-3.5 sm:p-6 md:p-8 relative">
+        
+        <!-- Top Festive Controls Bar -->
+        <div class="flex flex-wrap items-center justify-between gap-2.5 pb-4 border-b-2 border-dashed border-amber-200">
+            <!-- Audio Voice & Speed Controls -->
+            <div class="flex items-center gap-2 flex-wrap">
+                <div class="flex items-center bg-white px-2.5 py-1.5 rounded-xl border border-sky-200 shadow-xs">
+                    <span class="text-xs font-bold text-sky-700 mr-1.5 flex items-center gap-1">🎙️ Voice:</span>
+                    <select id="voiceSelect" onchange="changeVoice()" class="text-xs font-semibold text-slate-700 bg-transparent outline-none max-w-[130px] sm:max-w-[180px] cursor-pointer">
+                        <option value="">Auto Natural Voice</option>
+                    </select>
+                </div>
+
+                <button onclick="toggleSpeechRate()" id="speedBtn" class="bg-white hover:bg-sky-50 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-bold border border-sky-200 shadow-xs flex items-center gap-1 transition-all">
+                    <span>🐇</span>
+                    <span id="speedLabel">Normal</span>
+                </button>
+            </div>
+
+            <!-- Tour Player & Sound Toggle -->
+            <div class="flex items-center gap-2">
+                <button onclick="startSequentialTour()" id="tourBtn" class="bg-emerald-500 hover:bg-emerald-600 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold shadow-sm transition-all flex items-center gap-1.5">
+                    <span>▶️</span>
+                    <span>Listen All (1-20)</span>
+                </button>
+                <button onclick="toggleSound()" id="soundToggleBtn" class="bg-white hover:bg-slate-50 text-slate-700 p-2 rounded-xl text-xs font-bold border border-slate-200 shadow-xs" title="Mute/Unmute Sound FX">
+                    🔊
+                </button>
+            </div>
+        </div>
+
+        <div class="relative mt-4 mb-4 pt-2">
+            <!-- Header Grid: Wooden Plaque + Logo + Centered Title -->
+            <div class="flex items-start justify-between">
+                
+                <!-- Wooden Hanging Sign (المعلم: ماجد السويهري) -->
+                <div class="relative z-10 shrink-0 cursor-pointer" onclick="greetTeacher()" title="انقر للترحيب">
+                    <div class="sign-rope-left"></div>
+                    <div class="sign-rope-right"></div>
+                    <div class="wooden-sign px-3 sm:px-4 py-2 sm:py-2.5 text-center shadow-lg">
+                        <div class="text-[11px] sm:text-xs font-black text-amber-100 font-cairo">المعلم:</div>
+                        <div class="text-xs sm:text-sm md:text-base font-black text-white font-cairo tracking-wide drop-shadow-sm">ماجد السويهري</div>
+                    </div>
+                </div>
+
+                <!-- Langua Learn Brand Logo -->
+                <div class="bg-white/95 px-3 py-1.5 rounded-2xl border-2 border-rose-200 shadow-xs flex items-center gap-2">
+                    <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-tr from-amber-500 to-rose-500 flex items-center justify-center text-white text-base font-bold shadow-xs">
+                        🎓
+                    </div>
+                    <div class="text-left">
+                        <div class="text-xs sm:text-sm font-black text-slate-800 tracking-tight leading-none">LANGUA LEARN</div>
+                        <div class="text-[9px] text-rose-500 font-bold uppercase tracking-wider">Learn, Grow, Succeed</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Centered Worksheet 3D Title -->
+            <div class="text-center mt-2 sm:mt-0 mb-3">
+                <div class="inline-flex flex-col items-center">
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-black title-3d tracking-tight flex items-center gap-2 justify-center">
+                        <span>Numbers 1 - 20</span>
+                        <span class="title-ar-3d font-cairo text-2xl sm:text-3xl md:text-4xl" dir="rtl">الأرقام</span>
+                    </h1>
+                    <div class="text-[11px] sm:text-xs font-bold text-sky-800 bg-sky-100/90 px-3 py-0.5 rounded-full mt-1 border border-sky-300">
+                        استمع وتعلّم الأرقام بالإنجليزية واللغة العربية
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Mode Navigation Tabs -->
+        <div class="flex items-center justify-center gap-2 sm:gap-3 mb-4 flex-wrap">
+            <button onclick="switchTab('chart')" id="tabBtn-chart" class="mode-tab-btn px-4 py-2 rounded-2xl font-black text-xs sm:text-sm flex items-center gap-1.5 transition-all bg-sky-600 text-white shadow-md">
+                <span>📋</span>
+                <span>لوحة الأرقام (Chart)</span>
+            </button>
+            <button onclick="switchTab('unscramble')" id="tabBtn-unscramble" class="mode-tab-btn px-4 py-2 rounded-2xl font-black text-xs sm:text-sm flex items-center gap-1.5 transition-all bg-white text-slate-700 hover:bg-sky-50 border border-slate-200 shadow-xs">
+                <span>🔤</span>
+                <span>رتب حروف الرقم (Spell)</span>
+            </button>
+            <button onclick="switchTab('matching')" id="tabBtn-matching" class="mode-tab-btn px-4 py-2 rounded-2xl font-black text-xs sm:text-sm flex items-center gap-1.5 transition-all bg-white text-slate-700 hover:bg-sky-50 border border-slate-200 shadow-xs">
+                <span>🔗</span>
+                <span>صل الرقم باسمه (Match)</span>
+            </button>
+            <button onclick="switchTab('missing')" id="tabBtn-missing" class="mode-tab-btn px-4 py-2 rounded-2xl font-black text-xs sm:text-sm flex items-center gap-1.5 transition-all bg-white text-slate-700 hover:bg-sky-50 border border-slate-200 shadow-xs">
+                <span>🔢</span>
+                <span>الرقم المفقود (Quiz)</span>
+            </button>
+        </div>
+
+        <!-- Live Active Number Visual Bar -->
+        <div id="liveBar" class="bg-white/95 rounded-2xl p-2.5 sm:p-3 border-2 border-sky-200 mb-4 shadow-sm flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-3">
+                <div id="activeBadge" class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center text-white text-2xl font-black shadow-md bg-gradient-to-tr from-orange-500 to-amber-400">
+                    1
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span id="activeEnglishWord" class="text-lg sm:text-xl font-black text-slate-900">One</span>
+                        <span id="activeArabicWord" class="font-cairo text-sm sm:text-base font-bold text-amber-700 bg-amber-50 px-2.5 py-0.5 rounded-lg border border-amber-200" dir="rtl">١ - واحد</span>
+                    </div>
+                    <div class="text-[11px] text-slate-500 font-semibold">اضغط على أي بطاقة لسماع نطقها النقي ومشاهدة عدادها</div>
+                </div>
+            </div>
+
+            <!-- Visual Quantity Counter Bubbles -->
+            <div class="flex items-center gap-1.5">
+                <div class="text-xs font-bold text-slate-600 mr-1">الكمية:</div>
+                <div id="counterDotsContainer" class="flex flex-wrap items-center gap-1 max-w-[280px] sm:max-w-[360px]">
+                    <!-- Dynamically filled with cute stars/dots based on selected number -->
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 1: Main Worksheet Numbers Chart (1 to 20) -->
+        <div id="view-chart" class="tab-view block">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                
+                <!-- Left Column Box: Numbers 1 to 10 -->
+                <div class="numbers-column-card p-3 sm:p-4">
+                    <div class="flex items-center justify-between pb-2 mb-2.5 border-b-2 border-amber-200">
+                        <span class="font-black text-slate-800 text-sm sm:text-base flex items-center gap-1.5">
+                            <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                            Numbers 1 to 10
+                        </span>
+                        <span class="font-cairo text-xs font-bold text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-lg border border-amber-200" dir="rtl">الأرقام من 1 إلى 10</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 sm:gap-2.5" id="grid1To10">
+                        <!-- Populated dynamically via JS -->
+                    </div>
+                </div>
+
+                <!-- Right Column Box: Numbers 11 to 20 -->
+                <div class="numbers-column-card p-3 sm:p-4">
+                    <div class="flex items-center justify-between pb-2 mb-2.5 border-b-2 border-purple-200">
+                        <span class="font-black text-slate-800 text-sm sm:text-base flex items-center gap-1.5">
+                            <span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span>
+                            Numbers 11 to 20
+                        </span>
+                        <span class="font-cairo text-xs font-bold text-purple-800 bg-purple-50 px-2.5 py-0.5 rounded-lg border border-purple-200" dir="rtl">الأرقام من 11 إلى 20</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 sm:gap-2.5" id="grid11To20">
+                        <!-- Populated dynamically via JS -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- TAB 2: Unscramble & Spell Game View -->
+        <div id="view-unscramble" class="tab-view hidden">
+            <div class="bg-white rounded-3xl p-4 sm:p-6 border-3 border-amber-300 shadow-md max-w-xl mx-auto text-center">
+                
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold text-amber-800 bg-amber-100 px-3 py-1 rounded-full">🔤 رتب حروف الرقم</span>
+                    <div class="flex items-center gap-2">
+                        <button onclick="prevUnscrambleWord()" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg text-xs font-bold">⏮ السابق</button>
+                        <span id="unscrambleIndexLabel" class="text-xs font-black text-slate-700">1 / 20</span>
+                        <button onclick="nextUnscrambleWord()" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg text-xs font-bold">التالي ⏭</button>
+                    </div>
+                </div>
+
+                <!-- Large Target Number Display -->
+                <div class="flex items-center justify-center gap-4 mb-4">
+                    <div id="unscrambleBigNum" class="w-20 h-20 rounded-2xl flex items-center justify-center text-white text-5xl font-black shadow-lg bg-orange-500">
+                        1
+                    </div>
+                    <div class="text-right">
+                        <div id="unscrambleArabic" class="text-xl font-black font-cairo text-slate-800">واحد</div>
+                        <button onclick="playUnscrambleAudio()" class="mt-1 px-3 py-1 bg-sky-100 hover:bg-sky-200 text-sky-800 rounded-xl text-xs font-bold flex items-center gap-1">
+                            <span>🔊 استمع للكلمة</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Word Input Slots -->
+                <div id="unscrambleSlots" class="flex items-center justify-center gap-2 mb-6 min-h-[52px] flex-wrap">
+                    <!-- Populated by JS -->
+                </div>
+
+                <!-- Scrambled Letter Tiles Pool -->
+                <div class="mb-4">
+                    <div class="text-xs font-bold text-slate-500 mb-2">اضغط على الحروف لترتيبها بالترتيب الصحيح:</div>
+                    <div id="unscrambleLettersPool" class="flex items-center justify-center gap-2 flex-wrap min-h-[48px]">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Action Controls -->
+                <div class="flex items-center justify-center gap-2 pt-2 border-t border-slate-100">
+                    <button onclick="resetCurrentUnscramble()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold">
+                        🔄 إعادة المحاولة
+                    </button>
+                    <button onclick="hintUnscramble()" class="px-3 py-1.5 bg-amber-100 hover:bg-amber-200 text-amber-800 rounded-xl text-xs font-bold">
+                        💡 تلميح
+                    </button>
+                    <button onclick="solveCurrentUnscramble()" class="px-3 py-1.5 bg-emerald-100 hover:bg-emerald-200 text-emerald-800 rounded-xl text-xs font-bold">
+                        👁️ إظهار الحل
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: Match Pairs Interactive Game View -->
+        <div id="view-matching" class="tab-view hidden">
+            <div class="bg-white rounded-3xl p-4 sm:p-6 border-3 border-purple-300 shadow-md max-w-3xl mx-auto">
+                <div class="flex items-center justify-between mb-4 pb-2 border-b border-purple-100 flex-wrap gap-2">
+                    <div>
+                        <h3 class="font-black text-slate-800 text-base sm:text-lg flex items-center gap-1.5">
+                            <span>🏹</span>
+                            <span>صل الرقم باسمه بالأسهم (Match with Arrows)</span>
+                        </h3>
+                        <p class="text-xs text-slate-500 font-semibold">اضغط على الرقم في اليسار ثم اختر اسمه في اليمين لرسم سهم التوصيل</p>
+                    </div>
+                    <button onclick="initMatchingGame()" class="px-3.5 py-1.5 bg-purple-100 hover:bg-purple-200 text-purple-800 rounded-xl text-xs font-bold transition-all shadow-xs flex items-center gap-1">
+                        <span>🔀</span>
+                        <span>جولة جديدة</span>
+                    </button>
+                </div>
+
+                <!-- Relative Matching Board with Responsive Dynamic SVG Arrow Canvas -->
+                <div class="relative min-h-[380px] p-2" id="matchingBoardContainer">
+                    
+                    <!-- SVG Overlay for drawing connecting arrows with arrowheads -->
+                    <svg id="matchSvgCanvas" class="pointer-events-none absolute inset-0 w-full h-full z-15" style="overflow: visible;">
+                        <defs id="matchSvgDefs">
+                            <!-- Dynamic SVG arrow markers inserted via JS -->
+                        </defs>
+                        <g id="matchSvgArrowsGroup">
+                            <!-- Rendered paths with arrowheads -->
+                        </g>
+                    </svg>
+
+                    <!-- Columns Grid with ample center space for arrows -->
+                    <div class="grid grid-cols-2 gap-8 sm:gap-16 md:gap-20 relative z-10" id="matchingBoard">
+                        <!-- Left Column: Numerals -->
+                        <div class="flex flex-col gap-3" id="matchNumbersCol"></div>
+                        <!-- Right Column: Words -->
+                        <div class="flex flex-col gap-3" id="matchWordsCol"></div>
+                    </div>
+                </div>
+
+                <div id="matchScoreBar" class="flex items-center justify-between mt-4 pt-3 border-t border-purple-100 text-xs font-bold text-slate-600 flex-wrap gap-2">
+                    <div>
+                        تم توصيل: <span id="matchCompletedCount" class="text-purple-700 font-black text-sm">0</span> من <span id="matchTotalCount" class="font-black text-sm">6</span> أسهم 🎯
+                    </div>
+                    <div id="matchingGuideText" class="text-sky-600 font-extrabold bg-sky-50 px-3 py-1 rounded-full border border-sky-200">
+                        اختر رقماً في اليسار لبدء السهم
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: Missing Number Quiz View -->
+        <div id="view-missing" class="tab-view hidden">
+            <div class="bg-white rounded-3xl p-4 sm:p-6 border-3 border-sky-300 shadow-md max-w-xl mx-auto text-center">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold text-sky-800 bg-sky-100 px-3 py-1 rounded-full">🔢 أوجد الرقم المفقود</span>
+                    <button onclick="generateMissingQuestion()" class="px-3 py-1 bg-sky-50 hover:bg-sky-100 text-sky-700 rounded-xl text-xs font-bold">
+                        سؤال جديد ↻
+                    </button>
+                </div>
+
+                <div class="text-sm font-bold text-slate-600 mb-4">ما هو الرقم الذي يكمل السلسلة العددية؟</div>
+
+                <!-- Sequence Train Display -->
+                <div id="missingTrainSequence" class="flex items-center justify-center gap-2 sm:gap-3 mb-6 flex-wrap">
+                    <!-- Dynamic train sequence boxes -->
+                </div>
+
+                <!-- Multiple Choice Options -->
+                <div class="text-xs font-bold text-slate-500 mb-2">اختر الإجابة الصحيحة:</div>
+                <div id="missingOptionsGrid" class="grid grid-cols-3 gap-2.5 max-w-sm mx-auto mb-4">
+                    <!-- Dynamic Choice Buttons -->
+                </div>
+
+                <div id="missingFeedbackMsg" class="min-h-[28px] text-xs font-black"></div>
+            </div>
+        </div>
+
+        <div class="mt-6 pt-4 border-t-2 border-dashed border-amber-200 flex flex-wrap items-center justify-between gap-2 text-xs font-bold text-slate-500">
+            <div class="flex items-center gap-1.5">
+                <span>⭐</span>
+                <span>تصميم تفاعلي مستوحى من ورقة عمل المعلم ماجد السويهري</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-md font-extrabold">100% متوافق مع جميع الشاشات</span>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        /**
+         * Complete Numbers 1 - 20 Dataset
+         * Exactly mirrors the pastel palette, typography, and two-column layout of the worksheet.
+         */
+        const NUMBERS_DATA = [
+            // Left Column: 1 to 10
+            { num: 1,  word: 'One',       arabic: 'واحد',       arabicNum: '١',  bg: '#FFF0EB', border: '#FDBA74', numColor: '#EA580C', stroke: '#9A3412', col: 1 },
+            { num: 6,  word: 'Six',       arabic: 'ستة',        arabicNum: '٦',  bg: '#FFEAD5', border: '#FB923C', numColor: '#F97316', stroke: '#C2410C', col: 1 },
+            { num: 2,  word: 'Two',       arabic: 'اثنان',      arabicNum: '٢',  bg: '#FDF2F4', border: '#F472B6', numColor: '#DB2777', stroke: '#9D174D', col: 1 },
+            { num: 7,  word: 'Seven',     arabic: 'سبعة',      arabicNum: '٧',  bg: '#FCE7EB', border: '#FB7185', numColor: '#E11D48', stroke: '#9F1239', col: 1 },
+            { num: 3,  word: 'Three',     arabic: 'ثلاثة',      arabicNum: '٣',  bg: '#FEF9C3', border: '#FDE047', numColor: '#CA8A04', stroke: '#854D0E', col: 1 },
+            { num: 8,  word: 'Eight',     arabic: 'ثمانية',     arabicNum: '٨',  bg: '#FEF08A', border: '#FACC15', numColor: '#D97706', stroke: '#92400E', col: 1 },
+            { num: 4,  word: 'Four',      arabic: 'أربعة',      arabicNum: '٤',  bg: '#E0F2FE', border: '#7DD3FC', numColor: '#0284C7', stroke: '#075985', col: 1 },
+            { num: 9,  word: 'Nine',      arabic: 'تسعة',       arabicNum: '٩',  bg: '#E0F2FE', border: '#38BDF8', numColor: '#0369A1', stroke: '#0C4A6E', col: 1 },
+            { num: 5,  word: 'Five',      arabic: 'خمسة',       arabicNum: '٥',  bg: '#DCFCE7', border: '#86EFAC', numColor: '#16A34A', stroke: '#166534', col: 1 },
+            { num: 10, word: 'Ten',       arabic: 'عشرة',       arabicNum: '١٠', bg: '#DCFCE7', border: '#4ADE80', numColor: '#15803D', stroke: '#14532D', col: 1 },
+
+            // Right Column: 11 to 20
+            { num: 11, word: 'eleven',    arabic: 'أحد عشر',    arabicNum: '١١', bg: '#E0F2FE', border: '#38BDF8', numColor: '#0284C7', stroke: '#0369A1', col: 2 },
+            { num: 16, word: 'Sixteen',   arabic: 'ستة عشر',    arabicNum: '١٦', bg: '#FEF3C7', border: '#FBBF24', numColor: '#D97706', stroke: '#92400E', col: 2 },
+            { num: 12, word: 'Twelve',    arabic: 'اثنا عشر',   arabicNum: '١٢', bg: '#EDE9FE', border: '#C084FC', numColor: '#7C3AED', stroke: '#5B21B6', col: 2 },
+            { num: 17, word: 'Seventeen', arabic: 'سبعة عشر',   arabicNum: '١٧', bg: '#FCE7F3', border: '#F472B6', numColor: '#DB2777', stroke: '#9D174D', col: 2 },
+            { num: 13, word: 'Thirteen',  arabic: 'ثلاثة عشر',  arabicNum: '١٣', bg: '#ECFCCB', border: '#A3E635', numColor: '#65A30D', stroke: '#3F6212', col: 2 },
+            { num: 18, word: 'Eighteen',  arabic: 'ثمانية عشر', arabicNum: '١٨', bg: '#FEF9C3', border: '#FACC15', numColor: '#CA8A04', stroke: '#854D0E', col: 2 },
+            { num: 14, word: 'Fourteen',  arabic: 'أربعة عشر',  arabicNum: '١٤', bg: '#D1FAE5', border: '#6EE7B7', numColor: '#059669', stroke: '#065F46', col: 2 },
+            { num: 19, word: 'Nineteen',  arabic: 'تسعة عشر',   arabicNum: '١٩', bg: '#EDE9FE', border: '#A78BFA', numColor: '#6D28D9', stroke: '#4C1D95', col: 2 },
+            { num: 15, word: 'Fifteen',   arabic: 'خمسة عشر',   arabicNum: '١٥', bg: '#FFE4E6', border: '#FDA4AF', numColor: '#E11D48', stroke: '#9F1239', col: 2 },
+            { num: 20, word: 'Twenty',    arabic: 'عشرون',      arabicNum: '٢٠', bg: '#E0F2FE', border: '#60A5FA', numColor: '#2563EB', stroke: '#1E40AF', col: 2 }
+        ];
+
+        // Global State Variables
+        let currentActiveNum = 1;
+        let isAudioPlaying = false;
+        let isTourRunning = false;
+        let isSlowSpeed = false;
+        let soundEffectsEnabled = true;
+        let activeTab = 'chart';
+        let availableVoices = [];
+        let selectedVoice = null;
+
+        // Unscramble Game State
+        let unscrambleIndex = 0;
+        let currentUnscrambleTarget = null;
+        let userAssembledLetters = [];
+
+        // Matching Game State with Arrows
+        let matchingSelectedLeft = null;
+        let matchingPairs = [];
+        let matchedCount = 0;
+        let completedArrowMatches = []; // Holds { num, color, leftPinId, rightPinId }
+
+        // Missing Sequence State
+        let currentMissingAnswer = null;
+
+        // Audio Context for Web Audio FX
+        let audioCtx = null;
+
+        function getAudioContext() {
+            if (!audioCtx) {
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                if (AudioContextClass) {
+                    audioCtx = new AudioContextClass();
+                }
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        function playChimeSound(type = 'click') {
+            if (!soundEffectsEnabled) return;
+            try {
+                const ctx = getAudioContext();
+                if (!ctx) return;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                const now = ctx.currentTime;
+                if (type === 'click') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(520, now);
+                    osc.frequency.exponentialRampToValueAtTime(880, now + 0.08);
+                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.08);
+                    osc.start(now);
+                    osc.stop(now + 0.08);
+                } else if (type === 'success') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(587.33, now); // D5
+                    osc.frequency.setValueAtTime(880, now + 0.1); // A5
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.35);
+                    osc.start(now);
+                    osc.stop(now + 0.35);
+                } else if (type === 'error') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, now);
+                    osc.frequency.setValueAtTime(160, now + 0.12);
+                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
+                    osc.start(now);
+                    osc.stop(now + 0.25);
+                }
+            } catch (e) {
+                console.warn('Audio FX error:', e);
+            }
+        }
+
+        function loadSpeechVoices() {
+            if (!('speechSynthesis' in window)) return;
+            const voices = window.speechSynthesis.getVoices();
+            if (!voices || voices.length === 0) return;
+
+            availableVoices = voices.filter(v => v.lang.startsWith('en'));
+            const selectEl = document.getElementById('voiceSelect');
+            selectEl.innerHTML = '<option value="">Auto Natural Voice</option>';
+
+            availableVoices.forEach((v, idx) => {
+                const opt = document.createElement('option');
+                opt.value = idx;
+                opt.textContent = `${v.name} (${v.lang})`;
+                selectEl.appendChild(opt);
+            });
+
+            // Priority: Natural / Neural / Google / Samantha
+            const bestVoice = availableVoices.find(v => 
+                v.name.includes('Natural') || 
+                v.name.includes('Google US') || 
+                v.name.includes('Samantha') || 
+                v.name.includes('Jenny')
+            );
+            if (bestVoice) {
+                selectedVoice = bestVoice;
+            }
+        }
+
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = loadSpeechVoices;
+            loadSpeechVoices();
+        }
+
+        function changeVoice() {
+            const val = document.getElementById('voiceSelect').value;
+            if (val === '') {
+                selectedVoice = null;
+            } else {
+                selectedVoice = availableVoices[parseInt(val, 10)] || null;
+            }
+        }
+
+        function toggleSpeechRate() {
+            isSlowSpeed = !isSlowSpeed;
+            const label = document.getElementById('speedLabel');
+            label.textContent = isSlowSpeed ? 'Slow (0.7x)' : 'Normal';
+            document.getElementById('speedBtn').querySelector('span:first-child').textContent = isSlowSpeed ? '🐢' : '🐇';
+            playChimeSound('click');
+        }
+
+        function toggleSound() {
+            soundEffectsEnabled = !soundEffectsEnabled;
+            document.getElementById('soundToggleBtn').textContent = soundEffectsEnabled ? '🔊' : '🔇';
+        }
+
+        function renderWorksheetTiles() {
+            const grid1To10 = document.getElementById('grid1To10');
+            const grid11To20 = document.getElementById('grid11To20');
+
+            // Left Col: 1 to 10
+            const items1To10 = NUMBERS_DATA.filter(d => d.col === 1);
+            grid1To10.innerHTML = items1To10.map(item => createNumberTileHTML(item)).join('');
+
+            // Right Col: 11 to 20
+            const items11To20 = NUMBERS_DATA.filter(d => d.col === 2);
+            grid11To20.innerHTML = items11To20.map(item => createNumberTileHTML(item)).join('');
+        }
+
+        function createNumberTileHTML(item) {
+            const isActive = currentActiveNum === item.num;
+            return `
+            <div id="tile-num-${item.num}"
+                 onclick="selectAndSpeakNumber(${item.num})"
+                 class="number-tile px-2 py-2 sm:px-2.5 sm:py-2.5 flex items-center justify-between border-2 shadow-xs ${isActive ? 'is-active-speaking' : ''}"
+                 style="background-color: ${item.bg}; border-color: ${item.border};">
+                
+                <!-- 3D Large Numeral & English Word -->
+                <div class="flex items-center gap-1.5 sm:gap-2 min-w-0 mr-1">
+                    <span class="num-3d text-2xl sm:text-3xl shrink-0"
+                          style="color: ${item.numColor}; -webkit-text-stroke: 1.2px ${item.stroke};">
+                        ${item.num}
+                    </span>
+                    <span class="font-fredoka font-extrabold text-slate-800 text-xs sm:text-sm md:text-[15px] truncate leading-tight">
+                        ${item.word}
+                    </span>
+                </div>
+
+                <!-- Arabic Pill - Fully enclosed inside the rectangle with no overflow -->
+                <div class="shrink-0 flex items-center">
+                    <span class="font-cairo text-[10px] sm:text-[11px] font-bold text-slate-700 bg-white/95 px-1.5 sm:px-2 py-0.5 rounded-md border border-slate-200/90 shadow-2xs whitespace-nowrap" dir="rtl">
+                        <span class="text-amber-800 font-extrabold font-cairo ml-0.5">${item.arabicNum}</span>
+                        <span>${item.arabic}</span>
+                    </span>
+                </div>
+
+            </div>`;
+        }
+
+        function updateLiveBar(data) {
+            currentActiveNum = data.num;
+            const badge = document.getElementById('activeBadge');
+            badge.textContent = data.num;
+            badge.style.background = `linear-gradient(135deg, ${data.numColor}, ${data.stroke})`;
+
+            document.getElementById('activeEnglishWord').textContent = data.word;
+            document.getElementById('activeArabicWord').textContent = `${data.arabicNum} - ${data.arabic}`;
+
+            // Render quantity dots
+            const dotsContainer = document.getElementById('counterDotsContainer');
+            dotsContainer.innerHTML = '';
+            for (let i = 0; i < data.num; i++) {
+                const dot = document.createElement('span');
+                dot.className = 'w-3.5 h-3.5 rounded-full inline-block shadow-2xs animate-bounce';
+                dot.style.animationDelay = `${(i % 10) * 0.05}s`;
+                dot.style.animationDuration = '1.2s';
+                dot.style.backgroundColor = data.numColor;
+                dotsContainer.appendChild(dot);
+            }
+
+            // Update highlighting in tiles
+            document.querySelectorAll('.number-tile').forEach(el => el.classList.remove('is-active-speaking'));
+            const activeTile = document.getElementById(`tile-num-${data.num}`);
+            if (activeTile) {
+                activeTile.classList.add('is-active-speaking');
+            }
+        }
+
+        function selectAndSpeakNumber(num, onComplete = null) {
+            const data = NUMBERS_DATA.find(d => d.num === num);
+            if (!data) return;
+
+            updateLiveBar(data);
+            playChimeSound('click');
+
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utter = new SpeechSynthesisUtterance(data.word);
+                utter.lang = 'en-US';
+                utter.rate = isSlowSpeed ? 0.72 : 0.95;
+                utter.pitch = 1.05;
+                if (selectedVoice) {
+                    utter.voice = selectedVoice;
+                }
+
+                utter.onend = () => {
+                    if (typeof onComplete === 'function') {
+                        onComplete();
+                    }
+                };
+                utter.onerror = () => {
+                    if (typeof onComplete === 'function') {
+                        onComplete();
+                    }
+                };
+
+                window.speechSynthesis.speak(utter);
+            } else {
+                if (typeof onComplete === 'function') {
+                    setTimeout(onComplete, 800);
+                }
+            }
+        }
+
+        function startSequentialTour() {
+            if (isTourRunning) {
+                isTourRunning = false;
+                if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+                document.getElementById('tourBtn').innerHTML = '<span>▶️</span><span>Listen All (1-20)</span>';
+                return;
+            }
+
+            isTourRunning = true;
+            document.getElementById('tourBtn').innerHTML = '<span>⏹️</span><span>Stop Tour</span>';
+            let step = 1;
+
+            function playNext() {
+                if (!isTourRunning || step > 20) {
+                    isTourRunning = false;
+                    document.getElementById('tourBtn').innerHTML = '<span>▶️</span><span>Listen All (1-20)</span>';
+                    if (step > 20) {
+                        celebrateConfetti();
+                    }
+                    return;
+                }
+                selectAndSpeakNumber(step, () => {
+                    step++;
+                    setTimeout(() => {
+                        if (isTourRunning) playNext();
+                    }, 400);
+                });
+            }
+
+            playNext();
+        }
+
+        function greetTeacher() {
+            playChimeSound('click');
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utter = new SpeechSynthesisUtterance("Welcome to Teacher Majed Al-Swaihri's numbers lesson!");
+                utter.lang = 'en-US';
+                utter.rate = 0.95;
+                if (selectedVoice) utter.voice = selectedVoice;
+                window.speechSynthesis.speak(utter);
+            }
+        }
+
+        function setupUnscrambleWord(index) {
+            unscrambleIndex = (index + NUMBERS_DATA.length) % NUMBERS_DATA.length;
+            currentUnscrambleTarget = NUMBERS_DATA[unscrambleIndex];
+            userAssembledLetters = [];
+
+            document.getElementById('unscrambleIndexLabel').textContent = `${unscrambleIndex + 1} / ${NUMBERS_DATA.length}`;
+            const bigNum = document.getElementById('unscrambleBigNum');
+            bigNum.textContent = currentUnscrambleTarget.num;
+            bigNum.style.backgroundColor = currentUnscrambleTarget.numColor;
+            document.getElementById('unscrambleArabic').textContent = `${currentUnscrambleTarget.arabicNum} - ${currentUnscrambleTarget.arabic}`;
+
+            const wordUpper = currentUnscrambleTarget.word.toUpperCase();
+            
+            // Build slots
+            const slotsContainer = document.getElementById('unscrambleSlots');
+            slotsContainer.innerHTML = '';
+            for (let i = 0; i < wordUpper.length; i++) {
+                const slot = document.createElement('div');
+                slot.id = `slot-${i}`;
+                slot.className = 'w-10 h-12 sm:w-12 sm:h-14 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 flex items-center justify-center font-black text-xl sm:text-2xl text-slate-800 shadow-2xs';
+                slotsContainer.appendChild(slot);
+            }
+
+            // Shuffle letters
+            const chars = wordUpper.split('');
+            const scrambled = [...chars].sort(() => Math.random() - 0.5);
+
+            const poolContainer = document.getElementById('unscrambleLettersPool');
+            poolContainer.innerHTML = '';
+            scrambled.forEach((char, idx) => {
+                const btn = document.createElement('button');
+                btn.id = `letter-btn-${idx}`;
+                btn.textContent = char;
+                btn.className = 'letter-tile w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-amber-400 hover:bg-amber-500 text-slate-900 font-black text-lg sm:text-xl shadow-xs border-b-2 border-amber-600';
+                btn.onclick = () => pickLetter(char, btn);
+                poolContainer.appendChild(btn);
+            });
+        }
+
+        function pickLetter(char, btnEl) {
+            const targetWord = currentUnscrambleTarget.word.toUpperCase();
+            if (userAssembledLetters.length >= targetWord.length) return;
+
+            playChimeSound('click');
+            btnEl.disabled = true;
+            btnEl.classList.add('opacity-30', 'scale-90');
+
+            const slotIndex = userAssembledLetters.length;
+            userAssembledLetters.push({ char, btnEl });
+
+            const slot = document.getElementById(`slot-${slotIndex}`);
+            if (slot) {
+                slot.textContent = char;
+                slot.classList.remove('border-dashed', 'border-slate-300', 'bg-slate-50');
+                slot.classList.add('border-solid', 'border-sky-500', 'bg-white', 'text-sky-700');
+            }
+
+            // Check if word is completed
+            if (userAssembledLetters.length === targetWord.length) {
+                const assembledString = userAssembledLetters.map(item => item.char).join('');
+                if (assembledString === targetWord) {
+                    playChimeSound('success');
+                    celebrateConfetti();
+                    selectAndSpeakNumber(currentUnscrambleTarget.num);
+                    for (let i = 0; i < targetWord.length; i++) {
+                        const s = document.getElementById(`slot-${i}`);
+                        s.classList.remove('border-sky-500', 'text-sky-700');
+                        s.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-700');
+                    }
+                } else {
+                    playChimeSound('error');
+                    for (let i = 0; i < targetWord.length; i++) {
+                        const s = document.getElementById(`slot-${i}`);
+                        s.classList.remove('border-sky-500', 'text-sky-700');
+                        s.classList.add('border-rose-400', 'bg-rose-50', 'text-rose-700');
+                    }
+                }
+            }
+        }
+
+        function resetCurrentUnscramble() {
+            setupUnscrambleWord(unscrambleIndex);
+            playChimeSound('click');
+        }
+
+        function hintUnscramble() {
+            const targetWord = currentUnscrambleTarget.word.toUpperCase();
+            const nextIdx = userAssembledLetters.length;
+            if (nextIdx >= targetWord.length) return;
+
+            const neededChar = targetWord[nextIdx];
+            const poolButtons = document.querySelectorAll('#unscrambleLettersPool button');
+            for (let btn of poolButtons) {
+                if (!btn.disabled && btn.textContent === neededChar) {
+                    pickLetter(neededChar, btn);
+                    break;
+                }
+            }
+        }
+
+        function solveCurrentUnscramble() {
+            resetCurrentUnscramble();
+            const targetWord = currentUnscrambleTarget.word.toUpperCase();
+            for (let i = 0; i < targetWord.length; i++) {
+                hintUnscramble();
+            }
+        }
+
+        function nextUnscrambleWord() {
+            setupUnscrambleWord(unscrambleIndex + 1);
+        }
+
+        function prevUnscrambleWord() {
+            setupUnscrambleWord(unscrambleIndex - 1);
+        }
+
+        function playUnscrambleAudio() {
+            if (currentUnscrambleTarget) {
+                selectAndSpeakNumber(currentUnscrambleTarget.num);
+            }
+        }
+
+        function initMatchingGame() {
+            const pool = [...NUMBERS_DATA].sort(() => Math.random() - 0.5).slice(0, 6);
+            matchingPairs = pool;
+            matchedCount = 0;
+            matchingSelectedLeft = null;
+            completedArrowMatches = [];
+
+            document.getElementById('matchCompletedCount').textContent = '0';
+            document.getElementById('matchTotalCount').textContent = pool.length;
+            updateMatchingGuide("اختر رقماً في اليسار لبدء السهم 🎯");
+
+            // Reset SVG canvas
+            const defs = document.getElementById('matchSvgDefs');
+            const group = document.getElementById('matchSvgArrowsGroup');
+            if (defs) defs.innerHTML = '';
+            if (group) group.innerHTML = '';
+
+            const leftCol = document.getElementById('matchNumbersCol');
+            const rightCol = document.getElementById('matchWordsCol');
+
+            const shuffledNumbers = [...pool].sort(() => Math.random() - 0.5);
+            const shuffledWords = [...pool].sort(() => Math.random() - 0.5);
+
+            // Render Left Column (Numerals with Right Anchor Pin)
+            leftCol.innerHTML = shuffledNumbers.map(item => `
+                <button id="match-left-${item.num}" 
+                        onclick="selectMatchLeft(${item.num})" 
+                        class="match-node p-2.5 sm:p-3 rounded-2xl bg-white border-2 border-sky-300 flex items-center justify-between shadow-2xs font-black text-xl text-slate-800 select-none">
+                    <div class="flex items-center">
+                        <span class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center text-white font-black text-xl shadow-xs" style="background:${item.numColor}">
+                            ${item.num}
+                        </span>
+                    </div>
+                    <!-- Right connector pin where arrow begins -->
+                    <div id="pin-left-${item.num}" class="connector-pin absolute -right-2 top-1/2 -translate-y-1/2 shadow-xs" style="background:${item.numColor};"></div>
+                </button>
+            `).join('');
+
+            // Render Right Column (Words with Left Anchor Pin)
+            rightCol.innerHTML = shuffledWords.map(item => `
+                <button id="match-right-${item.num}" 
+                        onclick="selectMatchRight(${item.num})" 
+                        class="match-node p-2.5 sm:p-3 rounded-2xl bg-white border-2 border-purple-300 flex items-center justify-between shadow-2xs select-none">
+                    <!-- Left connector pin where arrow points and ends -->
+                    <div id="pin-right-${item.num}" class="connector-pin absolute -left-2 top-1/2 -translate-y-1/2 shadow-xs" style="background:${item.numColor};"></div>
+                    <div class="flex items-center justify-between w-full pl-2">
+                        <span class="font-extrabold text-slate-800 text-sm sm:text-base">${item.word}</span>
+                        <span class="text-[11px] sm:text-xs font-bold font-cairo text-purple-700 bg-purple-50 px-2 py-0.5 rounded-md border border-purple-100">${item.arabic}</span>
+                    </div>
+                </button>
+            `).join('');
+        }
+
+        function selectMatchLeft(num) {
+            // If already matched, ignore
+            if (completedArrowMatches.some(m => m.num === num)) {
+                playChimeSound('click');
+                return;
+            }
+
+            playChimeSound('click');
+            matchingSelectedLeft = num;
+
+            // Reset selected states
+            document.querySelectorAll('#matchNumbersCol .match-node').forEach(btn => btn.classList.remove('selected'));
+            document.querySelectorAll('#matchNumbersCol .connector-pin').forEach(pin => pin.classList.remove('active-pulse'));
+
+            const el = document.getElementById(`match-left-${num}`);
+            const pin = document.getElementById(`pin-left-${num}`);
+            if (el) el.classList.add('selected');
+            if (pin) pin.classList.add('active-pulse');
+
+            const item = NUMBERS_DATA.find(d => d.num === num);
+            updateMatchingGuide(`الآن اختر اسم الرقم (${item ? item.word : num}) من القائمة اليمنى 🏹`);
+        }
+
+        function selectMatchRight(num) {
+            if (!matchingSelectedLeft) {
+                playChimeSound('click');
+                updateMatchingGuide("الرجاء اختيار رقم في اليسار أولاً 👈");
+                return;
+            }
+
+            // Check if already matched
+            if (completedArrowMatches.some(m => m.num === num)) {
+                playChimeSound('click');
+                return;
+            }
+
+            if (matchingSelectedLeft === num) {
+                // Correct match!
+                playChimeSound('success');
+                const data = NUMBERS_DATA.find(d => d.num === num);
+                const color = data ? data.numColor : '#0284c7';
+
+                const leftBtn = document.getElementById(`match-left-${num}`);
+                const rightBtn = document.getElementById(`match-right-${num}`);
+                const leftPin = document.getElementById(`pin-left-${num}`);
+                const rightPin = document.getElementById(`pin-right-${num}`);
+
+                if (leftBtn) {
+                    leftBtn.classList.remove('selected');
+                    leftBtn.classList.add('matched');
+                }
+                if (rightBtn) {
+                    rightBtn.classList.add('matched');
+                }
+                if (leftPin) leftPin.classList.remove('active-pulse');
+
+                // Save match and draw arrow
+                const matchObj = { num, color };
+                completedArrowMatches.push(matchObj);
+                matchedCount++;
+                document.getElementById('matchCompletedCount').textContent = matchedCount;
+
+                drawArrowLine(matchObj);
+                selectAndSpeakNumber(num);
+
+                if (matchedCount >= matchingPairs.length) {
+                    celebrateConfetti();
+                    updateMatchingGuide("🎉 أحسنت صنعاً! تم توصيل جميع الأسهم بنجاح!");
+                } else {
+                    updateMatchingGuide("رائع جداً! اختر رقماً آخر للتوصيل 🎯");
+                }
+            } else {
+                // Incorrect match attempt
+                playChimeSound('error');
+                const rightBtn = document.getElementById(`match-right-${num}`);
+                if (rightBtn) {
+                    rightBtn.classList.add('border-rose-400', 'bg-rose-50');
+                    setTimeout(() => {
+                        rightBtn.classList.remove('border-rose-400', 'bg-rose-50');
+                    }, 400);
+                }
+                updateMatchingGuide("❌ حاول مرة أخرى! اختر الكلمة الصحيحة للرقم");
+            }
+
+            // Clear left selection
+            matchingSelectedLeft = null;
+            document.querySelectorAll('#matchNumbersCol .match-node').forEach(btn => btn.classList.remove('selected'));
+            document.querySelectorAll('#matchNumbersCol .connector-pin').forEach(pin => pin.classList.remove('active-pulse'));
+        }
+
+        function drawArrowLine(match) {
+            const container = document.getElementById('matchingBoardContainer');
+            const leftPin = document.getElementById(`pin-left-${match.num}`);
+            const rightPin = document.getElementById(`pin-right-${match.num}`);
+            const defs = document.getElementById('matchSvgDefs');
+            const group = document.getElementById('matchSvgArrowsGroup');
+
+            if (!container || !leftPin || !rightPin || !defs || !group) return;
+
+            const cRect = container.getBoundingClientRect();
+            const lRect = leftPin.getBoundingClientRect();
+            const rRect = rightPin.getBoundingClientRect();
+
+            // Calculate start coordinates (center of left connector pin)
+            const x1 = lRect.left + (lRect.width / 2) - cRect.left;
+            const y1 = lRect.top + (lRect.height / 2) - cRect.top;
+
+            // Calculate end coordinates (tip touches right connector pin)
+            const x2 = rRect.left + (rRect.width / 2) - cRect.left;
+            const y2 = rRect.top + (rRect.height / 2) - cRect.top;
+
+            // Define dynamic colored arrowhead marker if not already present
+            const markerId = `arrowhead-${match.num}`;
+            if (!document.getElementById(markerId)) {
+                const marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+                marker.setAttribute('id', markerId);
+                marker.setAttribute('markerWidth', '10');
+                marker.setAttribute('markerHeight', '8');
+                marker.setAttribute('refX', '7');
+                marker.setAttribute('refY', '4');
+                marker.setAttribute('orient', 'auto');
+                marker.setAttribute('markerUnits', 'strokeWidth');
+                marker.innerHTML = `<polygon points="0 1, 7 4, 0 7" fill="${match.color}" />`;
+                defs.appendChild(marker);
+            }
+
+            // Create smooth cubic bezier curve path between pins
+            const deltaX = (x2 - x1) * 0.45;
+            const pathData = `M ${x1} ${y1} C ${x1 + deltaX} ${y1}, ${x2 - deltaX} ${y2}, ${x2 - 5} ${y2}`;
+
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('id', `arrow-path-${match.num}`);
+            path.setAttribute('d', pathData);
+            path.setAttribute('fill', 'none');
+            path.setAttribute('stroke', match.color);
+            path.setAttribute('stroke-width', window.innerWidth < 640 ? '3' : '4');
+            path.setAttribute('stroke-linecap', 'round');
+            path.setAttribute('marker-end', `url(#${markerId})`);
+            path.classList.add('match-arrow-path');
+
+            group.appendChild(path);
+        }
+
+        function redrawAllMatchingArrows() {
+            const group = document.getElementById('matchSvgArrowsGroup');
+            if (!group) return;
+            group.innerHTML = '';
+            completedArrowMatches.forEach(match => {
+                drawArrowLine(match);
+            });
+        }
+
+        function updateMatchingGuide(text) {
+            const guide = document.getElementById('matchingGuideText');
+            if (guide) guide.textContent = text;
+        }
+
+        // Keep SVG arrows aligned on viewport resize
+        window.addEventListener('resize', () => {
+            if (activeTab === 'matching') {
+                redrawAllMatchingArrows();
+            }
+        });
+
+        function generateMissingQuestion() {
+            // Generate a sequence of 4 consecutive numbers within 1 to 20
+            const seqLength = 4;
+            const maxStart = 20 - seqLength + 1;
+            const startNum = Math.floor(Math.random() * maxStart) + 1;
+            const sequence = [];
+            for (let i = 0; i < seqLength; i++) {
+                sequence.push(startNum + i);
+            }
+
+            // Pick one index to be the missing number
+            const missingIdx = Math.floor(Math.random() * seqLength);
+            currentMissingAnswer = sequence[missingIdx];
+
+            // Render train sequence
+            const trainContainer = document.getElementById('missingTrainSequence');
+            if (trainContainer) {
+                trainContainer.innerHTML = sequence.map((num, idx) => {
+                    if (idx === missingIdx) {
+                        return `
+                            <div id="missingTargetSlot" class="w-12 h-14 sm:w-14 sm:h-16 rounded-2xl border-3 border-dashed border-amber-400 bg-amber-100 text-amber-800 flex items-center justify-center font-black text-2xl sm:text-3xl shadow-sm animate-pulse">
+                                ?
+                            </div>
+                        `;
+                    } else {
+                        const numData = NUMBERS_DATA.find(d => d.num === num);
+                        const color = numData ? numData.numColor : '#0284c7';
+                        return `
+                            <div class="w-12 h-14 sm:w-14 sm:h-16 rounded-2xl bg-white border-2 border-sky-200 flex flex-col items-center justify-center font-black text-xl sm:text-2xl text-slate-800 shadow-xs">
+                                <span style="color: ${color}">${num}</span>
+                                <span class="text-[10px] text-slate-400 font-normal font-cairo">${numData ? numData.arabicNum : ''}</span>
+                            </div>
+                        `;
+                    }
+                }).join('<div class="text-slate-300 font-bold text-lg">➔</div>');
+            }
+
+            // Choices: correct answer + 2 random distractors
+            const distractors = new Set();
+            while (distractors.size < 2) {
+                const offset = (Math.random() > 0.5 ? 1 : -1) * (Math.floor(Math.random() * 3) + 1);
+                const candidate = currentMissingAnswer + offset;
+                if (candidate >= 1 && candidate <= 20 && candidate !== currentMissingAnswer) {
+                    distractors.add(candidate);
+                }
+            }
+            const choices = [currentMissingAnswer, ...Array.from(distractors)].sort(() => Math.random() - 0.5);
+
+            const grid = document.getElementById('missingOptionsGrid');
+            if (grid) {
+                grid.innerHTML = choices.map(choice => `
+                    <button onclick="checkMissingAnswer(${choice})" class="p-3 bg-sky-50 hover:bg-sky-100 text-sky-900 border-2 border-sky-200 rounded-2xl font-black text-xl shadow-xs transition-transform active:scale-95">
+                        ${choice}
+                    </button>
+                `).join('');
+            }
+
+            const msgEl = document.getElementById('missingFeedbackMsg');
+            if (msgEl) msgEl.textContent = '';
+        }
+
+        function checkMissingAnswer(num) {
+            const msgEl = document.getElementById('missingFeedbackMsg');
+            const targetSlot = document.getElementById('missingTargetSlot');
+
+            if (num === currentMissingAnswer) {
+                playChimeSound('success');
+                celebrateConfetti();
+                targetSlot.textContent = num;
+                targetSlot.classList.remove('bg-amber-100', 'border-dashed', 'border-amber-400', 'text-amber-800', 'animate-pulse');
+                targetSlot.classList.add('bg-emerald-100', 'border-solid', 'border-emerald-500', 'text-emerald-800');
+                msgEl.innerHTML = `<span class="text-emerald-600">🎉 إجابة صحيحة ممتازة! الرقم هو ${num}</span>`;
+                selectAndSpeakNumber(num);
+                setTimeout(generateMissingQuestion, 2000);
+            } else {
+                playChimeSound('error');
+                msgEl.innerHTML = `<span class="text-rose-500">❌ حاول مرة أخرى!</span>`;
+            }
+        }
+
+        function switchTab(tabId) {
+            activeTab = tabId;
+            playChimeSound('click');
+
+            // Hide all tab views
+            document.querySelectorAll('.tab-view').forEach(view => {
+                view.classList.add('hidden');
+                view.classList.remove('block');
+            });
+
+            // Show selected view
+            const selectedView = document.getElementById(`view-${tabId}`);
+            if (selectedView) {
+                selectedView.classList.remove('hidden');
+                selectedView.classList.add('block');
+            }
+
+            // Update button styles
+            document.querySelectorAll('.mode-tab-btn').forEach(btn => {
+                btn.classList.remove('bg-sky-600', 'text-white', 'shadow-md');
+                btn.classList.add('bg-white', 'text-slate-700', 'border', 'border-slate-200');
+            });
+
+            const activeBtn = document.getElementById(`tabBtn-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-white', 'text-slate-700', 'border', 'border-slate-200');
+                activeBtn.classList.add('bg-sky-600', 'text-white', 'shadow-md');
+            }
+
+            // Tab-specific initializers
+            if (tabId === 'unscramble') {
+                setupUnscrambleWord(unscrambleIndex);
+            } else if (tabId === 'matching') {
+                if (matchingPairs.length === 0) {
+                    initMatchingGame();
+                } else {
+                    setTimeout(redrawAllMatchingArrows, 50);
+                }
+            } else if (tabId === 'missing') {
+                generateMissingQuestion();
+            }
+        }
+
+        function celebrateConfetti() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 50,
+                    spread: 60,
+                    origin: { y: 0.7 }
+                });
+            }
+        }
+
+        // App Bootstrapping
+        window.onload = function() {
+            renderWorksheetTiles();
+            updateLiveBar(NUMBERS_DATA[0]);
+            setupUnscrambleWord(0);
+            initMatchingGame();
+            generateMissingQuestion();
+        };
+    </script>
+</body>
+</html>
